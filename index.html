@@ -4,13 +4,29 @@
 <head>
     <meta charset="UTF-8" />
     <title>Lake</title>
+
+    <style>
+        p>code,
+        pre {
+            border: 1px solid black;
+            padding-left: 0.25em;
+            padding-right: 0.25em;
+        }
+    </style>
 </head>
 
 <body>
     <h1>Lake</h1>
     <h2>A language for lay programmers.</h2>
-    <p><b>June 2025.</b> I'm actively (20 hours per week) working on a first public alpha version. The purpose of this first alpha version would be to showcase Lake and convince other developers to help build a first beta version.</p>
-    <p>Lake is designed for lay programmers: non-expert and non-professional programmers. Currently, without Lake, lay programmers must choose between very limited languages designed for children (e.g. Scratch) or powerful languages designed to be also used by experts and professionals (e.g. Python and JavaScript). These powerful languages force lay programmers to deal with confusing matters that are not relevant to their limited needs. With Lake I want to offer a language that is less powerful but powerful enough for a lay programmer, such that many confusing matters are completely removed.</p>
+    <p><b>June 2025.</b> I'm actively (20 hours per week) working on a first public alpha version. The purpose of this
+        first alpha version would be to showcase Lake and convince other developers to help build a first beta version.
+    </p>
+    <p>Lake is designed for lay programmers: non-expert and non-professional programmers. Currently, without Lake, lay
+        programmers must choose between very limited languages designed for children (e.g. Scratch) or powerful
+        languages designed to be also used by experts and professionals (e.g. Python and JavaScript). These powerful
+        languages force lay programmers to deal with confusing matters that are not relevant to their limited needs.
+        With Lake I want to offer a language that is less powerful but powerful enough for a lay programmer, such that
+        many confusing matters are completely removed.</p>
     <p>Here are some examples of what a lay programmer could use Lake for:
     <ul>
         <li>Quickly divide people into random groups.</li>
@@ -19,18 +35,224 @@
         <li>Program a logo and export it as an SVG or PNG file.</li>
     </ul>
     </p>
-    <p>Lake is not designed for learning how to program; it is an ergonomic tool for real work. Besides Lake I work on a project with the goal of teaching programming to a general audience (future lay programmers). Part of this project is a series of progressive languages, optimized for learning. The plan is to release Lake at the same time as this educational project, so an absolute beginner can smoothly progress from the educational languages into Lake.</p>
+    <p>Lake is not designed for learning how to program; it is an ergonomic tool for real work. Besides Lake I work on a
+        project with the goal of teaching programming to a general audience (future lay programmers). Part of this
+        project is a series of progressive languages, optimized for learning. The plan is to release Lake at the same
+        time as this educational project, so an absolute beginner can smoothly progress from the educational languages
+        into Lake.</p>
     <p>Some more detail:
     <ul>
-        <li>Write and run Lake in a web browser<sup>1</sup>. This lets you use Lake anywhere. A native client is on the roadmap, but the browser is the primary target.</li>
-        <li>A Lake program always runs in the same order as you read it. The execution model is single-threaded, synchronous and blocking<sup>1</sup>. No event loop, no concurrency. Instead of throwing exceptions, a program crashes loudly.</li>
-        <li>Lake is tolerant to mistakes. If you accidentally cause an infinite loop, just pause or stop the program without fuss<sup>1</sup>.</li>
-        <li>To run a Lake program you always only provide a single file of source code. There are no modules, so no module management and no missing or outdated dependencies. Instead of modules you can use the extensive standard library. If you're annoyed that you have to write or copy-paste some useful code often, complain about it on the forum; it might get added to the standard library.</li>
-        <li>The runtime comes with a window for drawing and clicking on, keyboard support and spreadsheets. Use the standard library to interact with these systems.</li>
-        <li>Lake offers room to grow. There are beginner lay programmers and experienced lay programmers. As you gain experience you may choose to use more advanced language features. However, a beginner can do everything with basic language features. The examples in the documentation show alternatives for different levels of experience.</li>
+        <li>Write and run Lake in a web browser<sup>1</sup>. This lets you use Lake anywhere. A native client is on the
+            roadmap, but the browser is the primary target.</li>
+        <li>A Lake program always runs in the same order as you read it. The execution model is single-threaded,
+            synchronous and blocking<sup>1</sup>. No event loop, no concurrency. Instead of throwing exceptions, a
+            program crashes loudly.</li>
+        <li>Lake is tolerant to mistakes. If you accidentally cause an infinite loop, just pause or stop the program
+            without fuss<sup>1</sup>.</li>
+        <li>To run a Lake program you always only provide a single file of source code. There are no modules, so no
+            module management and no missing or outdated dependencies. Instead of modules you can use the extensive
+            standard library. If you're annoyed that you have to write or copy-paste some useful code often, complain
+            about it on the forum; it might get added to the standard library.</li>
+        <li>The runtime comes with a window for drawing and clicking on, keyboard support and spreadsheets. Use the
+            standard library to interact with these systems.</li>
+        <li>Lake offers room to grow. There are beginner lay programmers and experienced lay programmers. As you gain
+            experience you may choose to use more advanced language features. However, a beginner can do everything with
+            basic language features. The examples in the documentation show alternatives for different levels of
+            experience.</li>
     </ul>
-    <sup>1</sup>: A runtime in the browser that is blocking and that you can pause/stop at any moment comes with the downside that it is orders of magnitude slower than such a runtime as a native client would be. However, in the spirit of Lake, it is still fast enough.
+    <sup>1</sup>: A runtime in the browser that is blocking and that you can pause/stop at any moment comes with the
+    downside that it is orders of magnitude slower than such a runtime as a native client would be. However, in the
+    spirit of Lake, it is still fast enough.
     </p>
+    <section>
+        <h2>Claim</h2>
+        <p>
+            The following is not aimed at potential future users of Lake, but to have timestamped examples in the public
+            record. The argumentation is cursory and assumes a familiarity with programming languages.
+        </p>
+
+        <p>
+            Let's say you want to model a player who has some scores. Later you want to increase the first score by one.
+            In JavaScript this would typically be implemented as follows. I use <code>let</code> to be more
+            apples-to-apples with Lake, which has only mutable bindings.
+        </p>
+
+        <pre><code>let player = {scores : [99, 50, 25]}
+user.scores[0] += 1
+</code></pre>
+
+        <p>
+            Updating the score is convenient to write. But, player is mutable. In Lake I certainly want immutable
+            compound values. But, in languages that have immutable compound values, implementing the above typically
+            involves more non-imperative bells and whistles than I'd like for Lake. I needed a way to somewhat
+            ergonomically work imperatively with nested immutable values. After experimentation I settled on this:
+        </p>
+
+        <pre><code>bind user : @.[scores : [99, 50, 25]]
+rebind user : $.scores[1]::$ + 1
+</code></pre>
+
+
+        <p>
+            This tiny example shows (as far as I can tell) two novel language concepts, which together enable ergnomic
+            imperative use of nested immutable compound values. In addition, this example shows an aspect that isn't so
+            much novel but is examplory of Lake's design philosophy and therefore worth to discuss briefly at the end.
+        </p>
+
+        <p>
+            The
+            <code>$</code> token always reprents a bound value, the same way that <code>x</code> represents a bound
+            value in <code>print(x)</code>.
+            However, you never create a binding to <code>$</code> yourself. It is automatically inserted into certain
+            contexts. The example above contains two such contexts.
+        </p>
+
+        <p>
+            The first is when evaluating the expression on the right hand side of a rebind. Then <code>$</code> is bound
+            to the value currently bound to the identifier that is being rebound. So equivalent to the second line would
+            be
+        </p>
+
+        <pre><code>rebind user : user.scores[1]::$ + 1
+</code></pre>
+
+
+        <p>
+            The second context is when evaluating the expression after
+            <code>::</code>. What <code>::</code> does will be explained soon. For now, here <code>$</code>
+            is bound to what comes before <code>::</code>. So we can rewrite further to
+        </p>
+
+        <pre><code>rebind user : user.scores[1]::user.scores[1] + 1
+</code></pre>
+
+        <p>
+            The merit of <code>$</code> is ergonomics. The semantics are bespoke but simple enough to be a basic feature
+            of Lake. I
+            chose <code>$</code> as the symbol fairly arbitrarily, but a mnemomic is 'it saves you a bunch of typing'.
+        </p>
+
+        <p>
+            Onto the second novel language concept, involving <code>::</code>.
+        </p>
+
+        <p>
+            In other languages, typically accessors such as <code>.scores</code> and <code>[1]</code> are like a postfix
+            operator
+            in that they are each evaluated individually, where each evaluation results in a value (where the value
+            could be a
+            reference to an object). E.g. in JavaScript <code>player.scores[0]</code> would be equivalent to
+            <code>((player).scores)[0]</code>.
+        </p>
+
+        <p>
+            In Lake, individual accessors are part of an access chain, together with a root. The value that results from
+            evaluating the chain depends on what happens at the end of the chain.
+        </p>
+
+        <p>
+            If the chain is not capped by <code>::</code>, the resulting value of the chain is the nested value, like
+            you'd expect.
+            The chain <code>user.scores[1]</code> in <code>user.scores[1] + 1</code> is an example of this.
+        </p>
+
+        <p>
+            The chain can also be capped by <code>::</code>, after which an expression is expected. The nested value is
+            replaced by
+            the result of the expression, but the resulting value of the chain (including the cap and right-hand-side expression) is not the updated nested value, but the root. Or rather, because values
+            are immutable, a copy of the root where the accessed nested value has been replaced by the result of the
+            expression to the right of <code>::</code>.
+        </p>
+
+        <p>
+            (As a nicety, not evaluating each accessor individually to obtain intermediate results entirely removes the need for 'optional
+            chaining', such as <code>?.</code> is JavaScript.)
+        </p>
+
+        <p>
+            Having discussed all the pieces, let's take another look at
+        </p>
+
+
+        <pre><code>rebind user : $.scores[1]::$ + 1
+</code></pre>
+
+        <p>
+            You could intuit <code>$</code> as 'the thing to its left is repeated here', but achieved with clear semantics
+            instead of
+            syntactic shenannigans (which I tried before and is a nightmare). With a moderate amount of familiarity you will likely barely
+            see the<code>$</code>s, in a good way.
+        </p>
+        <p>
+            Now the non-novel but Lake-typical aspect of the example. Let's take another look at it as a whole:
+        </p>
+
+        <pre><code>bind user : @.[scores : [99, 50, 25]]
+rebind user : $.scores[1]::$ + 1
+</code></pre>
+
+
+        <p>
+            Lake is dynamically typed, and has only two compound types: lists and maps (unordered key-value pairs). With
+            syntactic sugar you can ergonomically write lists and maps in such a way that you can use them like types
+            that commonly exist in other languages.
+        </p>
+        <p>
+            E.g. strings are lists that consist entirely of characters. Writing
+            <code>"foo"</code> is syntactic sugar for <code>['f', 'o', 'o']</code>. <code>""</code> is sugar for
+            <code>[]</code>.
+        </p>
+        <p>
+            Likewise, <code>@.[scores : [99, 50, 25]]</code> is sugar for <code>@["scores" : [99, 50, 25]]</code> and
+            <code>user.scores</code>
+            is sugar for <code>user@["scores"]</code>. Syntax highlighting helps making clear what <code>@.</code> and
+            <code>.</code> are sugar for
+            by giving the appropriate keywords the same color as string content.
+        </p>
+
+        <p>
+            Note that the most verbose version of
+        </p>
+        <pre><code>rebind user : $.scores::$ + 1
+</code></pre>
+
+        <p>
+            would be
+        </p>
+
+        <pre><code>rebind user : user@["scores"][1]::user@["scores"][1] + 1
+</code></pre>
+
+        <p>
+            Some more pseudotypes (<code>=</code> is the equality operator, used here only to show equality):
+        </p>
+        <pre><code>@set["a", "b"] = @["a" : 1, "b" : 1]
+@enum[LEFT, RIGHT] = @["LEFT" : "LEFT", "RIGHT" : "RIGHT"]
+A = 1
+AA = 27
+A2 = [A, 2]
+</code></pre>
+
+        <p>
+            Lake makes use of syntactic sugar for pseudotypes instead of having distinct types to squeeze more juice out
+            of a single function or operator, without having to do overloading (which I want to keep to severe minimum).
+            If it works on a map, it works on a 'set'. If it works on a list, it works on a 'string'.
+        </p>
+
+        <p>
+            The big downside of pseudotypes is that when representing a value as a string, it will always be represented
+            as the actual type. E.g. <code>print(@.[age : 100])</code> will print <code>@["age" : 100]</code>. Note that
+            this
+            already shows the sole exception: if a list contains only characters, it will be printed in the string
+            format. A quirk of
+            Lake is that the empty string is printed as <code>[]</code>. In practise, this is fine. You might consider
+            this a feature: you are reminded that although you wrote a pseudotype literal, you actually just wrote an
+            actual
+            type. If you insist on stringifying a value in its pseudotype form, you can use a standard library function
+            to do so.
+        </p>
+    </section>
+
 </body>
 
 </html>
