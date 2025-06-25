@@ -82,7 +82,7 @@ user.scores[0] += 1
 </code></pre>
 
         <p>
-            Updating the score is convenient to write. But, player is mutable. In Lake I certainly want immutable
+            Updating the score is convenient to write. But, the representation of the player is mutable. In Lake I certainly want immutable
             compound values. But, in languages that have immutable compound values, implementing the above typically
             involves more non-imperative bells and whistles than I'd like for Lake. I needed a way to somewhat
             ergonomically work imperatively with nested immutable values. After experimentation I settled on this:
