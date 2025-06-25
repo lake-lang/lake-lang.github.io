@@ -95,8 +95,8 @@ rebind user : $.scores[1]::$ + 1
         <p>(Lists in Lake are 1-indexed.)</p>
         <p>
             This tiny example shows how two aspects of Lake's syntax and semantics that together enable something novel:
-            ergnomic imperative use of nested immutable values. In addition, this example shows an aspect that isn't so
-            much novel but is examplory of Lake's design philosophy and therefore worth to discuss briefly at the end.
+            ergnomic imperative use of nested immutable values. In addition, this example shows an aspect that isn't related to the novelty,
+            but is examplory of Lake's design philosophy and therefore worth to discuss briefly at the end.
         </p>
 
         <p>
@@ -133,7 +133,7 @@ rebind user : $.scores[1]::$ + 1
         </p>
 
         <p>
-            Onto the second novel language concept, involving <code>::</code>.
+            Onto the second aspect of Lake that enables ergnomic imperative use of nested immutable values, involving <code>::</code>.
         </p>
 
         <p>
@@ -184,7 +184,7 @@ rebind user : $.scores[1]::$ + 1
             see the<code>$</code>s, in a good way.
         </p>
         <p>
-            Now the non-novel but Lake-typical aspect of the example. Let's take another look at it as a whole:
+            Finally the aspect of the example that is not related to imperative use of immutable nested values. Let's take another look at it as a whole:
         </p>
 
         <pre><code>bind user : @.[scores : [99, 50, 25]]
