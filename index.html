@@ -17,7 +17,7 @@
 
 <body>
     <h1>Lake</h1>
-    <h2>A language for lay programmers.</h2>
+    <h2>A language for lay programmers</h2>
     <p><b>June 2025.</b> I'm actively (20 hours per week) working on a first public alpha version. The purpose of this
         first alpha version would be to showcase Lake and convince other developers to help build a first beta version.
     </p>
@@ -92,7 +92,7 @@ user.scores[0] += 1
 rebind user : $.scores[1]::$ + 1
 </code></pre>
 
-
+        <p>(Lists in Lake are 1-indexed.)</p>
         <p>
             This tiny example shows (as far as I can tell) two novel language concepts, which together enable ergnomic
             imperative use of nested immutable compound values. In addition, this example shows an aspect that isn't so
@@ -213,7 +213,7 @@ rebind user : $.scores[1]::$ + 1
         <p>
             Note that the most verbose version of
         </p>
-        <pre><code>rebind user : $.scores::$ + 1
+        <pre><code>rebind user : $.scores[1]::$ + 1
 </code></pre>
 
         <p>
