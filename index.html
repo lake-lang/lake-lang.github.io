@@ -78,7 +78,7 @@
         </p>
 
         <pre><code>let player = {scores : [99, 50, 25]}
-user.scores[0] += 1
+player.scores[0] += 1
 </code></pre>
 
         <p>
@@ -88,8 +88,8 @@ user.scores[0] += 1
             ergonomically work imperatively with nested immutable values. After experimentation I settled on this:
         </p>
 
-        <pre><code>bind user : @.[scores : [99, 50, 25]]
-rebind user : $.scores[1]::$ + 1
+        <pre><code>bind player : @.[scores : [99, 50, 25]]
+rebind player : $.scores[1]::$ + 1
 </code></pre>
 
         <p>(Lists in Lake are 1-indexed.)</p>
@@ -113,7 +113,7 @@ rebind user : $.scores[1]::$ + 1
             be
         </p>
 
-        <pre><code>rebind user : user.scores[1]::$ + 1
+        <pre><code>rebind player : player.scores[1]::$ + 1
 </code></pre>
 
 
@@ -123,7 +123,7 @@ rebind user : $.scores[1]::$ + 1
             is bound to what comes before <code>::</code>. So we can rewrite further to
         </p>
 
-        <pre><code>rebind user : user.scores[1]::user.scores[1] + 1
+        <pre><code>rebind player : player.scores[1]::player.scores[1] + 1
 </code></pre>
 
         <p>
@@ -153,7 +153,7 @@ rebind user : $.scores[1]::$ + 1
         <p>
             If the chain is not capped by <code>::</code>, the resulting value of the chain is the nested value, like
             you'd expect.
-            The chain <code>user.scores[1]</code> in <code>user.scores[1] + 1</code> is an example of this.
+            The chain <code>player.scores[1]</code> in <code>player.scores[1] + 1</code> is an example of this.
         </p>
 
         <p>
@@ -174,7 +174,7 @@ rebind user : $.scores[1]::$ + 1
         </p>
 
 
-        <pre><code>rebind user : $.scores[1]::$ + 1
+        <pre><code>rebind player : $.scores[1]::$ + 1
 </code></pre>
 
         <p>
@@ -187,8 +187,8 @@ rebind user : $.scores[1]::$ + 1
             Finally the aspect of the example that is not related to imperative use of immutable nested values. Let's take another look at the example in its entirety:
         </p>
 
-        <pre><code>bind user : @.[scores : [99, 50, 25]]
-rebind user : $.scores[1]::$ + 1
+        <pre><code>bind player : @.[scores : [99, 50, 25]]
+rebind player : $.scores[1]::$ + 1
 </code></pre>
 
 
@@ -204,7 +204,7 @@ rebind user : $.scores[1]::$ + 1
         </p>
         <p>
             Likewise, <code>@.[scores : [99, 50, 25]]</code> is sugar for <code>@["scores" : [99, 50, 25]]</code> and
-            <code>user.scores</code>
+            <code>player.scores</code>
             is sugar for <code>user@["scores"]</code>. Syntax highlighting helps making clear what <code>@.</code> and
             <code>.</code> are sugar for
             by giving the appropriate keywords the same color as string content.
@@ -213,14 +213,14 @@ rebind user : $.scores[1]::$ + 1
         <p>
             Note that the most verbose version of
         </p>
-        <pre><code>rebind user : $.scores[1]::$ + 1
+        <pre><code>rebind player : $.scores[1]::$ + 1
 </code></pre>
 
         <p>
             would be
         </p>
 
-        <pre><code>rebind user : user@["scores"][1]::user@["scores"][1] + 1
+        <pre><code>rebind player : user@["scores"][1]::user@["scores"][1] + 1
 </code></pre>
 
         <p>
