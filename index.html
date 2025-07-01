@@ -11,7 +11,35 @@
             border: 1px solid black;
             padding-left: 0.25em;
             padding-right: 0.25em;
+
+            background-color: black;
+            color: white;
         }
+
+        span.kw-state {
+            color: tan;
+        }
+
+        span.identifier {
+            color: white;
+        }
+
+        span.nesting-1 {
+            color: #ffd700;
+        }
+
+        span.string-delimiter {
+            color: hsl(210, 100%, 77%);
+        }
+
+        span.string-content {
+            color: cyan;
+        }
+
+        span.operator {
+            color: white;
+        }
+
     </style>
 </head>
 
@@ -205,10 +233,13 @@ rebind player : $.scores[1]::$ + 1
         <p>
             Likewise, <code>@.[scores : [99, 50, 25]]</code> is sugar for <code>@["scores" : [99, 50, 25]]</code> and
             <code>player.scores</code>
-            is sugar for <code>player@["scores"]</code>. Syntax highlighting helps making clear what <code>@.</code> and
-            <code>.</code> are sugar for
-            by giving the appropriate keywords the same color as string content.
+            is sugar for <code>player@["scores"]</code>. Syntax highlighting helps make clear what <code>@.</code> and
+            <code>.</code> are sugar for by giving the appropriate keywords the same color as string content, as demonstrated by the following example:
         </p>
+
+        <pre><code><span class="kw-state">bind</span> <span class="identifier">name</span> <span class="kw-state">:</span> <span class="string-delimiter">"</span><span class="string-content">Jeroen</span><span class="string-delimiter">"</span>
+<span class="kw-state">bind <span class="identifier">user</span> <span class="kw-state">:</span> <span class="nesting-1">@.[</span><span class="string-content">name</span> <span class="nesting-1">:</span> <span class="identifier">name</span><span class="nesting-1">]</span>
+<span class="identifier">print</span><span class="nesting-1">(</span><span class="identifier">user</span><span class="operator">.</span><span class="string-content">name</span><span class="nesting-1">)</span></code></pre>
 
         <p>
             Note that the most verbose version of
