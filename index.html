@@ -166,7 +166,7 @@ rebind player : $.scores[1]::$ + 1
 
         <p>
             (As a nicety, not evaluating each accessor individually to obtain intermediate results entirely removes the need for 'optional
-            chaining', such as <code>?.</code> is JavaScript.)
+            chaining', such as <code>?.</code> in JavaScript.)
         </p>
 
         <p>
@@ -205,7 +205,7 @@ rebind player : $.scores[1]::$ + 1
         <p>
             Likewise, <code>@.[scores : [99, 50, 25]]</code> is sugar for <code>@["scores" : [99, 50, 25]]</code> and
             <code>player.scores</code>
-            is sugar for <code>user@["scores"]</code>. Syntax highlighting helps making clear what <code>@.</code> and
+            is sugar for <code>player@["scores"]</code>. Syntax highlighting helps making clear what <code>@.</code> and
             <code>.</code> are sugar for
             by giving the appropriate keywords the same color as string content.
         </p>
@@ -220,7 +220,7 @@ rebind player : $.scores[1]::$ + 1
             would be
         </p>
 
-        <pre><code>rebind player : user@["scores"][1]::user@["scores"][1] + 1
+        <pre><code>rebind player : player@["scores"][1]::player@["scores"][1] + 1
 </code></pre>
 
         <p>
