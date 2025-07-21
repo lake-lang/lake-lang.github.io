@@ -485,7 +485,7 @@ only if last link is a multilink:
 <p>There is a final access link, which ties in to more advanced, but not encouraged, way to deal with mutable state (rather than with bindings). A 'box' is a referenced object, like a function, that always contains a single value. The notion of something like a box is explicitly taught in the assumed pre-Lake basic training.</p>
 <p>A box's value can be retrieved and changed using the access chain system. The syntax for a new box (creating a box object and resulting a reference value) is <code>@box[value]</code>. The access link to enable retrieval and updating is <code>@content</code>, leading to e.g. <code>print(box@content)</code> and <code>box@content::it + 1</code>. Note that copies are shallow; the whole point of using an indirection like a box is to <em>not</em> copy the value but instead keep the same reference. It is possible to create a giant mess with boxes in access chains, such as using a function in a multilink to change the content of the box that's accessed in the same chain as the multilink. Static checking can give some warning for this, but ultimate a box is an advanced construct and a deviation of the immutable paradigm for which the user consciously takes responsibility.</p>
 <p>Note that boxes can be modeled with closures, e.g.</p>
-<pre class="hljs"><code><div>type Box_command&lt;Box&lt;T&gt;&gt; : Either |get |put[Function&lt;T : T&gt;]
+<pre class="hljs"><code><div>type Box_command&lt;T&gt; : Either |get |put[Function&lt;T : T&gt;]
 
 bind create_box : fn(value) {
   bind mutable content : value
